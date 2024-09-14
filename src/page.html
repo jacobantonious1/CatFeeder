@@ -9,6 +9,19 @@
 
         <input placeholder="How much grams would you like to feed the cat">
         <button onclick = "window.location = 'http://'+location.hostname+'/feedcat'" type = "submit">submit</button>
+        <button onclick = "send_button_xml('/button/on')" name = "button1">Click me to Spin</button>
 
     </body>
+    <script>
+        function send_button_xml(url){
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url, true);
+            xhr.onreadystatechange = function (){
+                if (xhr.readyState == 4 && xhr.status == 200){
+                    console.log(xhr.responseText)
+                }
+            };
+            xhr.send();
+        }
+    </script>
 </html>
