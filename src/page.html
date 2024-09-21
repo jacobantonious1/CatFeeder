@@ -1,17 +1,42 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <meta charset="UTF-8">
+        <title>Feed Cat</title>
     </head>
     <body>
-        Hello
-        <button>Feed Cat</button>
+        <div class = "front-page">
+            <div class = "input-field">
+                <div style = "flex-direction: column;">
+                    <h3>Hello, Welcome to the Cat Feeder</h3>
+                    <form action = "/get">
+                        <input type = "text" name = "input1" placeholder = "How much would you like to feed your cat?">
+                        <input type = "submit">
+                    </form> <br>
+                </div>
+                
+            </div>
+            
 
-        <input placeholder="How much grams would you like to feed the cat">
-        <button onclick = "window.location = 'http://'+location.hostname+'/feedcat'" type = "submit">submit</button>
-        <button onclick = "send_button_xml('/button/on')" name = "button1">Click me to Spin</button>
+            <div style = "display: flex; justify-content: center;">
+                <div class="button_cont">
+                    <button onclick = "send_button_xml('/button/on')" name = "button1" class = "button">Click me to Spin</button>
+                    <button onclick = "send_button_xml('/button/off')" class = "button">Click me to Stop Spinning</button>
+                </div>
+            </div>
 
+            <div class = "cat-food-display">
+                <div>
+                    <h3>This is how much cat food is on the plate right now:</h3>
+                    <div style = "display: flex; justify-content: center;">
+                        <div class = "display">10</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </body>
+    
     <script>
         function send_button_xml(url){
             var xhr = new XMLHttpRequest();
@@ -24,4 +49,53 @@
             xhr.send();
         }
     </script>
+
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+
+        .front-page{
+            
+        }
+
+        .input-field{
+            display: flex;
+            justify-content: center;
+        }
+
+        .button_cont{
+            display: flex;
+            flex-direction: column;
+            
+        }
+
+        .button{
+            background-color: aqua;
+            border-radius: 30px;
+            border: none;
+            height: 10dvh;
+            width: 10dvw;
+            font-size: larger;
+            margin: 10px;
+        }
+
+        .cat-food-display{
+            display: flex;
+            justify-content: center;
+        }
+
+        .display{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: aqua;
+            backdrop-filter: blur(10px);
+            border: solid 2px grey;
+            height: 50px;
+            width: 50px;
+        }
+    </style>
+
 </html>

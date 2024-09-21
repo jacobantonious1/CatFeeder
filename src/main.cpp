@@ -4,6 +4,8 @@
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <ESP32Servo.h>
+#include <HX711_ADC.h>
+#include <EEPROM.h>
 
 Servo my_servo;
 
@@ -16,7 +18,13 @@ const char* BUTTON_1 = "button1";
 int position = 0;
 int servo_pin = 18;
 
+const int HX711_dt = 17; //HX711 dt pin
+const int HX711_sck = 16; //HX711 sck pin
+
 AsyncWebServer server(80);
+
+//create load cell object 
+HX711_ADC LoadCell(HX711_dt, HX711_sck);
 
 const char WEB_PAGE[] PROGMEM = R"====( 
 <!DOCTYPE html>
@@ -60,6 +68,11 @@ void setup() {
   Serial.println("Start Network");
   Serial.println(WiFi.softAPIP());
 
+  LoadCell.begin();
+  unsigned long stabilizingtime = 2000;
+  boolean _tare = true;
+  LoadCell.start(stabilizingtime, _tare);
+
   //send webpage to client
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/html", WEB_PAGE);
@@ -96,6 +109,12 @@ void setup() {
 }
 
 void loop() { 
+
+    if (LoadCell.update()){
+        float weight = LoadCell.getData();
+        Serial.println(weight);
+    }
+
   // put your main code here, to run repeatedly:
 }
 
